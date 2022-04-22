@@ -123,7 +123,7 @@ export const convertBip39ToMoneroMnemonic = async (phrase: string, passPhrase: s
 
     network = moneroNetwork;
     derivationPath = moneroDerivationPath;
-    const mnemonic = convertBip39Mnemonic(phrase, passPhrase);
+    const mnemonic = await convertBip39Mnemonic(phrase, passPhrase);
     return mnemonic;
 }
 
@@ -131,7 +131,7 @@ export const convertBip39ToHavenMnemonic = async (phrase: string, passPhrase: st
 
     network = havenNetwork;
     derivationPath = havenDerivationPath;
-    const mnemonic = convertBip39Mnemonic(phrase, passPhrase);
+    const mnemonic = await convertBip39Mnemonic(phrase, passPhrase);
     return mnemonic;
 }
 
