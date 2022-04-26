@@ -1,1 +1,1 @@
-export {convertBip39ToHavenMnemonic convertBip39ToMoneroMnemonic} from "./converter/src/mnemonicConverter"
+export {convertBip39ToHavenMnemonic, convertBip39ToMoneroMnemonic} from "./converter/src/mnemonicConverter"
