@@ -119,7 +119,7 @@ const convertBip39Mnemonic = async (phrase: string, passPhrase: string) => {
 
 }
 
-export const convertBip39ToMoneroMnemonic = async (phrase: string, passPhrase: string): string {
+export const convertBip39ToMoneroMnemonic = async (phrase: string, passPhrase: string): Promise<string> {
 
     network = moneroNetwork;
     derivationPath = moneroDerivationPath;
@@ -127,7 +127,7 @@ export const convertBip39ToMoneroMnemonic = async (phrase: string, passPhrase: s
     return mnemonic;
 }
 
-export const convertBip39ToHavenMnemonic = async (phrase: string, passPhrase: string): string {
+export const convertBip39ToHavenMnemonic = async (phrase: string, passPhrase: string): Promise<string> {
 
     network = havenNetwork;
     derivationPath = havenDerivationPath;
