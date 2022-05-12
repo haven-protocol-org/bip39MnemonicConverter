@@ -1,35 +1,10 @@
 import {monero_words_english, monero_words_english_prefix_len} from "./monero-words-english.js";
-import createMoneroModule from "./monero-core.js";
+import Module from "./monero.js"
 
 
-const fromHexString = hexString => new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
-const toHexString = bytes => bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');
-
-
-/* const wasm_data_buffer = fromHexString(wasm_data);
-
-var Module = {
-  instantiateWasm: function(imports, successCallback) {
-    var wasmInstantiate = WebAssembly.instantiate(wasm_data_buffer, imports).then(function(output) {
-      successCallback(output.instance);
-    }).catch(function(e) {
-      console.log('wasm instantiation failed! ' + e);
-    });
-    return {}; // Compiling asynchronously, no exports.
-  },
-  lib: {},
-};
-
-Module.lib.fromHexString = fromHexString;
-Module.lib.toHexString = toHexString; */
-
-const getMoneroModule = async() => {
-    const module = await createMoneroModule();
-    return module;
-}
-
-export const sc_reduce32 = async(data) => {
-    const Module = await getMoneroModule();
+export const sc_reduce32 = (data) => {
+    console.log("sc_reduce called")
+    //const Module = await getMoneroModule();
     var dataLen = data.length * data.BYTES_PER_ELEMENT;
     var dataPtr = Module._malloc(dataLen);
     var dataHeap = new Uint8Array(Module.HEAPU8.buffer, dataPtr, dataLen);
@@ -42,8 +17,8 @@ export const sc_reduce32 = async(data) => {
 
 //Module.lib.sc_reduce32 = sc_reduce32;
 
-export const secret_key_to_public_key = async(data) => {
-    const Module = await getMoneroModule();
+export const secret_key_to_public_key = (data) => {
+    //const Module = await getMoneroModule();
     var outLen = data.length * data.BYTES_PER_ELEMENT;
     var outPtr = Module._malloc(outLen);
     var outHeap = new Uint8Array(Module.HEAPU8.buffer, outPtr, outLen);
@@ -56,8 +31,8 @@ export const secret_key_to_public_key = async(data) => {
 
 //Module.lib.secret_key_to_public_key = secret_key_to_public_key;
 
-const cn_fast_hash = async(data) => {
-    const Module = await getMoneroModule();
+const cn_fast_hash = (data) => {
+    //const Module = await getMoneroModule();
     var outLen = 32;
     var outPtr = Module._malloc(outLen);
     var outHeap = new Uint8Array(Module.HEAPU8.buffer, outPtr, outLen);
@@ -69,16 +44,16 @@ const cn_fast_hash = async(data) => {
 
 //Module.lib.cn_fast_hash = cn_fast_hash;
 
-export const hash_to_scalar = async(data) => {
-    const hashedData = await cn_fast_hash(data);
-    const reducedData = await sc_reduce32(hashedData)
+export const hash_to_scalar = (data) => {
+    const hashedData = cn_fast_hash(data);
+    const reducedData = sc_reduce32(hashedData)
     return reducedData;
 };
 
 //Module.lib.hash_to_scalar = hash_to_scalar;
 
-export const get_subaddress_secret_key = async(data, major, minor) => {
-    const Module = await getMoneroModule();
+export const get_subaddress_secret_key = (data, major, minor) => {
+    //const Module = await getMoneroModule();
     var outLen = 32;
     var outPtr = Module._malloc(outLen);
     var outHeap = new Uint8Array(Module.HEAPU8.buffer, outPtr, outLen);
@@ -90,8 +65,8 @@ export const get_subaddress_secret_key = async(data, major, minor) => {
 
 //Module.lib.get_subaddress_secret_key = get_subaddress_secret_key;
 
-export const sc_add = async(data1, data2) => {
-    const Module = await getMoneroModule();
+export const sc_add = (data1, data2) => {
+    //const Module = await getMoneroModule();
     var outLen = 32;
     var outPtr = Module._malloc(outLen);
     var outHeap = new Uint8Array(Module.HEAPU8.buffer, outPtr, outLen);
@@ -103,8 +78,8 @@ export const sc_add = async(data1, data2) => {
 
 //Module.lib.sc_add = sc_add;
 
-export const scalarmultKey = async(P, a) => {
-    const Module = await getMoneroModule();
+export const scalarmultKey = (P, a) => {
+    //const Module = await getMoneroModule();
     var outLen = 32;
     var outPtr = Module._malloc(outLen);
     var outHeap = new Uint8Array(Module.HEAPU8.buffer, outPtr, outLen);
@@ -207,8 +182,9 @@ var makeCRCTable = function(){
     return crcTable;
 }
 
+var crcTable
 var crc32 = function(str) {
-    var crcTable = window.crcTable || (window.crcTable = makeCRCTable());
+    crcTable = crcTable ||  makeCRCTable();
     var crc = 0 ^ (-1);
 
     for (var i = 0; i < str.length; i++ ) {

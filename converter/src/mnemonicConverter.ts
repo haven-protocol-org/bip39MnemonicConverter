@@ -1,11 +1,13 @@
-import { mnemonicToSeed } from "bip39";
+import { mnemonicToSeedSync } from "bip39";
 import { keccak256 } from "ethereumjs-util";
 import {BIP32Factory, BIP32Interface} from 'bip32';
-import {sc_reduce32} from "../monero/libmonero.js";
+import {sc_reduce32, secret_spend_key_to_words} from "../monero/libmonero.js";
+import * as ecc from "tiny-secp256k1";
+
 
 
 let network;
-let derivationPath;
+let derivationPath: string;
 
 const moneroDerivationPath = (): string => {
 
@@ -90,15 +92,14 @@ const calcBip32ExtendedKey = (bip32RootKey: BIP32Interface, path: string): BIP32
     return extendedKey!
 }
 
-const convertBip39Mnemonic = async (phrase: string, passPhrase: string) => {
+const convertBip39Mnemonic =  (phrase: string, passPhrase: string) => {
 
-    const ecc = await import('tiny-secp256k1');
 
     const bip32 = BIP32Factory(ecc);
 
-    const seed: Buffer = await mnemonicToSeed(phrase, passPhrase);
+    const seed: Buffer = mnemonicToSeedSync(phrase, passPhrase);
     const bip32RootKey: BIP32Interface = bip32.fromSeed(seed, moneroNetwork);
-    const bip32ExtendedKey = calcBip32ExtendedKey(bip32RootKey, moneroDerivationPath());
+    const bip32ExtendedKey = calcBip32ExtendedKey(bip32RootKey, derivationPath);
 
     //TODO use hardened addresses? https://wiki.trezor.io/Hardened_and_non-hardened_derivation
     const useHardenedAddresses = false;
@@ -113,25 +114,25 @@ const convertBip39Mnemonic = async (phrase: string, passPhrase: string) => {
 
     const rawPrivateKey: Buffer = key.privateKey!;
     const rawSecretSpendKey: Buffer = keccak256(rawPrivateKey);
-    const secretSpendKey = await sc_reduce32(rawSecretSpendKey);
-    const mnemonic = await secret_spend_key_to_words(secretSpendKey)
+    const secretSpendKey =  sc_reduce32(rawSecretSpendKey);
+    const mnemonic = secret_spend_key_to_words(secretSpendKey)
     return mnemonic;
 
 }
 
-export const convertBip39ToMoneroMnemonic = async (phrase: string, passPhrase: string): Promise<string> {
+export const convertBip39ToMoneroMnemonic =  (phrase: string, passPhrase: string): string => {
 
     network = moneroNetwork;
-    derivationPath = moneroDerivationPath;
-    const mnemonic = await convertBip39Mnemonic(phrase, passPhrase);
+    derivationPath = moneroDerivationPath();
+    const mnemonic =  convertBip39Mnemonic(phrase, passPhrase);
     return mnemonic;
 }
 
-export const convertBip39ToHavenMnemonic = async (phrase: string, passPhrase: string): Promise<string> {
+export const convertBip39ToHavenMnemonic = (phrase: string, passPhrase: string): string => {
 
     network = havenNetwork;
-    derivationPath = havenDerivationPath;
-    const mnemonic = await convertBip39Mnemonic(phrase, passPhrase);
+    derivationPath = havenDerivationPath();
+    const mnemonic = convertBip39Mnemonic(phrase, passPhrase);
     return mnemonic;
 }
 
