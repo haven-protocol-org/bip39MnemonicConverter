@@ -1,4 +1,3 @@
 node_modules/
-dist/
 converter/monero/monero-core.wasm
 converter/monero/monero-core.js
