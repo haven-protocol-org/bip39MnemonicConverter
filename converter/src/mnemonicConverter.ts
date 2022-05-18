@@ -53,7 +53,7 @@ const moneroNetwork = {
 const havenNetwork = {
 
     //TODO need to be adjusted to haven values?
-    messagePrefix: 'x18XMR Signed Message:\n',
+    messagePrefix: 'x18XHV Signed Message:\n',
     bip32: {
       public: 0x0488B21E,
       private: 0x0488ADE4,
