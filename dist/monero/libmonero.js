@@ -1,7 +1,6 @@
 import { monero_words_english, monero_words_english_prefix_len } from "./monero-words-english.js";
 import Module from "./monero.js";
 export const sc_reduce32 = (data) => {
-    console.log("sc_reduce called");
     //const Module = await getMoneroModule();
     var dataLen = data.length * data.BYTES_PER_ELEMENT;
     var dataPtr = Module._malloc(dataLen);
