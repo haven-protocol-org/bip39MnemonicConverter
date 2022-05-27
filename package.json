@@ -1,5 +1,5 @@
 {
-  "name": "mnemonicconverter",
+  "name": "mnemonic-converter",
   "version": "1.0.1",
   "description": "",
   "main": "dist/src/mnemonicConverter.js",
