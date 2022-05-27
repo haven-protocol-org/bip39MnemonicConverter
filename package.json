@@ -1,8 +1,9 @@
 {
-  "name": "mnemonic-converter",
-  "version": "1.0.1",
+  "name": "bip39-converter",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/src/mnemonicConverter.js",
+  "types":"index.d.ts",
   "scripts": {
     "test": "jest"
   },
