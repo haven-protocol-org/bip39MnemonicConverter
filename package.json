@@ -1,11 +1,15 @@
 {
   "name": "bip39-converter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
-  "main": "dist/src/mnemonicConverter.js",
-  "types":"index.d.ts",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "files":["/lib"],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+    "prepublish": "npm run build",
+    "build": "rm -rf ./lib && npm run tsc"
   },
   "author": "",
   "license": "ISC",

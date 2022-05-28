@@ -25,3 +25,5 @@ cat monero-core.js >> $OUTPUT
 #echo '}();' >> $OUTPUT
 # add es6 export
 echo 'export default Module;' >> $OUTPUT
+
+mv $OUTPUT ../src

@@ -1,7 +1,7 @@
 import { mnemonicToSeedSync } from "bip39";
 import { keccak256 } from "ethereumjs-util";
 import {BIP32Factory, BIP32Interface} from 'bip32';
-import {sc_reduce32, secret_spend_key_to_words} from "../monero/libmonero.js";
+import {sc_reduce32, secret_spend_key_to_words} from "./libmonero.js";
 import * as ecc from "tiny-secp256k1";
 
 

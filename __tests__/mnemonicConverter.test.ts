@@ -1,5 +1,5 @@
-import { convertBip39ToMoneroMnemonic } from "../converter/src/mnemonicConverter"
-import { convertBip39ToHavenMnemonic } from "../converter/src/mnemonicConverter"
+import { convertBip39ToMoneroMnemonic } from "../src/index"
+import { convertBip39ToHavenMnemonic } from "../src/index"
 
 
 describe('test converter', () => {
